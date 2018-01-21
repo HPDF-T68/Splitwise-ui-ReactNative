@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import { Button, Text } from 'native-base';
+import LoginDetail from './login_detail';
 
 export default class Login extends Component {
     render() {
@@ -16,6 +17,7 @@ export default class Login extends Component {
                         light
                         style={styles.login}
                         resizeMethod='auto'
+                        onPress={LoginDetail}
                     >
                         <Text style={styles.loginText}>Log in</Text>
                     </Button>
