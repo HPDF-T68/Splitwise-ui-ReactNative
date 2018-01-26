@@ -12,12 +12,12 @@
         "source": "/home/niyas/workspace/Hasura/splitwise/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-xhdpi/abc_btn_switch_to_on_mtrl_00001.9.png"
     },
     {
-        "merged": "/home/niyas/workspace/Hasura/splitwise/android/app/build/intermediates/res/merged/debug/drawable-xhdpi/abc_ic_menu_moreoverflow_mtrl_alpha.png",
-        "source": "/home/niyas/workspace/Hasura/splitwise/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-xhdpi/abc_ic_menu_moreoverflow_mtrl_alpha.png"
-    },
-    {
         "merged": "/home/niyas/workspace/Hasura/splitwise/android/app/build/intermediates/res/merged/debug/drawable-xhdpi/abc_ic_menu_copy_mtrl_am_alpha.png",
         "source": "/home/niyas/workspace/Hasura/splitwise/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-xhdpi/abc_ic_menu_copy_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "/home/niyas/workspace/Hasura/splitwise/android/app/build/intermediates/res/merged/debug/drawable-xhdpi/abc_ic_menu_moreoverflow_mtrl_alpha.png",
+        "source": "/home/niyas/workspace/Hasura/splitwise/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/drawable-xhdpi/abc_ic_menu_moreoverflow_mtrl_alpha.png"
     },
     {
         "merged": "/home/niyas/workspace/Hasura/splitwise/android/app/build/intermediates/res/merged/debug/drawable-xhdpi/abc_switch_track_mtrl_alpha.9.png",

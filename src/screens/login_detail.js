@@ -16,16 +16,18 @@ export default class LoginDetail extends Component {
                 >
                 SPLITWISE
                 </Text>
-                <Form style={styles.form}>
-                    <Item floatingLabel style={styles.input}>
-                        <Label>Username</Label>
-                        <Input />
-                    </Item>
-                    <Item floatingLabel style={styles.input}>
-                        <Label>Password</Label>
-                        <Input secureTextEntry />
-                    </Item>
-                </Form>
+                <View style={styles.form}>
+                    <Form>
+                        <Item floatingLabel style={styles.input}>
+                            <Label>Email</Label>
+                            <Input />
+                        </Item>
+                        <Item floatingLabel style={styles.input}>
+                            <Label>Password</Label>
+                            <Input secureTextEntry />
+                        </Item>
+                    </Form>
+                </View>
                 <View style={styles.buttonBox}>
                     <Button light style={styles.button}>
                         <Text style={styles.buttonBack}>Back</Text>
@@ -48,13 +50,13 @@ const styles = StyleSheet.create({
         fontFamily: 'monospace',   
     },
     form: {
-        paddingTop: 5,
-        alignItems: 'center',
-        margin: 0
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'stretch',
+        marginRight: 15
     },
     input: {
         height: 50,
-        width: 300,
     },
     buttonBox: {
         flexDirection: 'row',
