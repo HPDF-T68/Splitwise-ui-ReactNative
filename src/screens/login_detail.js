@@ -1,13 +1,23 @@
-import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
 import { Button, Text, Item, Label, Input, Form } from 'native-base';
-
+/**
+ * defines login actions.
+ * @export
+ * @class LoginDetail
+ * @extends {Component}
+ */
 export default class LoginDetail extends Component {
 
     state = {
         email: '',
-        password: ''
+        password: '',
     };
+
+    onButtonPress() {
+        const { email, password } = this.state;
+
+    }
     render() {
         return (
             <View>
@@ -20,11 +30,18 @@ export default class LoginDetail extends Component {
                     <Form>
                         <Item floatingLabel style={styles.input}>
                             <Label>Email</Label>
-                            <Input />
+                            <Input
+                            value={this.state.email}
+                            onChangeText={email => this.setState({ email })}
+                            />
                         </Item>
                         <Item floatingLabel style={styles.input}>
                             <Label>Password</Label>
-                            <Input secureTextEntry />
+                            <Input 
+                            secureTextEntry
+                            value={this.state.password} 
+                            onChangeText={password => this.setState({ password })}
+                            />
                         </Item>
                     </Form>
                 </View>
@@ -32,8 +49,8 @@ export default class LoginDetail extends Component {
                     <Button light style={styles.button}>
                         <Text style={styles.buttonBack}>Back</Text>
                     </Button>
-                    <Button success style={styles.button}>
-                        <Text style={styles.buttonDone}>Done</Text>
+                    <Button success style={styles.button} onPress={this.onButtonPress.bind(this)}>
+                        <Text style={styles.buttonDone}>Log In</Text>
                     </Button>
                 </View>
             </View>  

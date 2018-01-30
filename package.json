@@ -3,8 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "babel-preset-react-native": "^4.0.0",
     "babel-preset-react-native-stage-0": "^1.0.1",
+    "eslint": "^4.16.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-google": "^0.9.1",
     "eslint-config-rallycoding": "^3.2.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-class-property": "^1.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-react": "^7.6.0",
+    "eslint-plugin-standard": "^3.0.1",
     "jest-expo": "23.0.0",
     "react-test-renderer": "16.0.0"
   },
@@ -18,6 +31,8 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "eslint-plugin-react": "^7.6.0",
+    "eslint-plugin-react-native": "^3.2.1",
     "native-base": "^2.3.7",
     "prop-types": "^15.6.0",
     "react": "16.0.0",

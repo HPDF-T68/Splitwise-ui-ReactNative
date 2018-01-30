@@ -1,4 +1,0 @@
-#Mon Jan 22 08:56:08 IST 2018
-base.0=/home/niyas/workspace/Hasura/splitwise/android/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
-renamed.0=classes.dex
-file.0=/home/niyas/workspace/Hasura/splitwise/android/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
