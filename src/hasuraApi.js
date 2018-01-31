@@ -1,8 +1,9 @@
-
 const clusterName = 'octagon58';
 
 const loginUrl = 'https://auth.${clusterName}.hasura-app.io/v1/login';
-const signupUrl = 'https://auth.${clusterName}.hasura-app.io/v1/signup';
+const signupUrl = 'https://auth.'+ clusterName +'.hasura-app.io/v1/signup';
+
+import { Alert } from 'react-native';
 
 const networkErrorObj = {
     status: 503
@@ -35,14 +36,16 @@ export async function trySignup(email, password) {
     console.log('Auth response -----------------------');
 
     try {
+        console.log('fetching');
         let resp = await fetch(signupUrl, requestOptions);
-        let responseJson = await resp.json();
+        console.log(resp);
+        let responseJson = await resp.json();  
         console.log(responseJson);
         let resUsername = JSON.stringify(responseJson.username);
         let resHasuraid = JSON.stringify(responseJson.hasura_id);
         console.log(resUsername);
         console.log(resHasuraid);
-        return responseJson;
+        return resp;
     } catch (e) {
         console.log('Request Failed: ' + e);
         return networkErrorObj;

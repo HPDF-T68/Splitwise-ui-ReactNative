@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Alert, ImageBackground} from 'react-native';
 import {Text, Form, Item, Label, Input, Button, Picker, Icon} from 'native-base';
 import ImagePicker from 'react-native-image-crop-picker';
-import trySignup from "../hasuraApi";
+import { trySignup } from "../hasuraApi";
 /**
  * Class for Signin.
  * @class SigninDetail
