@@ -17,9 +17,10 @@ class SigninDetail extends Component {
         super(props);
         this.state = {
             isLoggedIn: false,
-            fullname: '',
+            username: '',
             email: '',
             password: '',
+            code: '',
             mobile: '',
             selectedCurrency: 'INR',
             image: {
@@ -41,7 +42,7 @@ class SigninDetail extends Component {
      * @param {string} value Selected currency value.
      * @memberof SigninDetail
      */
-    onValueChange(value: string) {
+    onValueChange(value) {
         this.setState({
             selectedCurrency: value,
         });
@@ -77,7 +78,8 @@ class SigninDetail extends Component {
             }).catch((e) => alert(e));
     }
     handleSignupPressed = async () => {
-        let resp = await trySignup(this.state.email, this.state.password);
+        let resp = await trySignup(this.state.username,this.state.email, this.state.password, this.state.code,
+        this.state.mobile, this.state.selectedCurrency);
         if(resp.status !== 200){
         if (resp.status === 504) {
             Alert.alert("Network Error", "Check your internet connection" )
@@ -86,6 +88,7 @@ class SigninDetail extends Component {
         }
         } else {
         this.setState({isLoggedIn:true})  
+        Alert.alert("Signup succesfully, Please login using login screen.")
         }
     }
     /**
@@ -120,10 +123,10 @@ class SigninDetail extends Component {
                 <View style={styles.form}>
                     <Form>
                         <Item floatingLabel style={styles.input}>
-                            <Label>Full name</Label>
+                            <Label>Username</Label>
                             <Input 
-                                value={this.state.fullname}
-                                onChangeText={(fullname) => this.setState({fullname})}
+                                value={this.state.username}
+                                onChangeText={(username) => this.setState({username})}  
                             />
                         </Item>
                         <Item floatingLabel style={styles.input}>
@@ -144,7 +147,10 @@ class SigninDetail extends Component {
                             <View style={{flex: 1}}>
                                 <Item floatingLabel style={{height: 50}}>
                                     <Label>Code</Label>
-                                    <Input />
+                                    <Input 
+                                    value={this.state.code}
+                                    onChangeText={(code) => this.setState({code})}
+                                    />
                                 </Item>
                             </View>
                             <View style={{flex: 4}}>
