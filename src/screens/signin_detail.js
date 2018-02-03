@@ -80,7 +80,7 @@ class SigninDetail extends Component {
     }
     handleSignupPressed = async () => {
         const { username, email, password, code, mobile, selectedCurrency } = this.state;
-        if((username && email && password && mobile ) == '')
+        if((username && email && password && mobile ) != '')
         {
             this.setState({ loading: true });
             let resp = await trySignup(username, email, password, code, mobile, selectedCurrency);
