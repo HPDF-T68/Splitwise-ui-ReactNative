@@ -1,7 +1,7 @@
 const clusterName = 'octagon58';
 
 const loginUrl = 'https://auth.${clusterName}.hasura-app.io/v1/login';
-const signupUrl = 'https://auth.'+ clusterName +'.hasura-app.io/v1/signup';
+const signupUrl = 'https://app.octagon58.hasura-app.io/signup';
 const queryUrl = 'https://data.'+ clusterName +'.hasura-app.io/v1/query'
 
 import { Alert } from 'react-native';
@@ -33,6 +33,9 @@ export async function trySignup(username, email, password, code, mobile, currenc
         'data': {
           'username': username,
           'password': password,
+          'email': email,
+          'mobile':mobile,
+          'currency':currency,
         },
       };
 
@@ -45,41 +48,7 @@ export async function trySignup(username, email, password, code, mobile, currenc
         let responseJson = await resp.json();  
         console.log(responseJson);
         let resHasuraid = JSON.stringify(responseJson.hasura_id);
-        if(resp.status === 200){
-            console.log("Updating signup table initialised");
-            requestOptions = {
-                'method': 'POST',
-                'headers': {
-                    'Content-Type': 'application/json'
-                },
-            };
-            body = {
-                'type': 'insert',
-                'args': {
-                    'table': 'signup',
-                    'objects': [
-                        {
-                            'uid': resHasuraid,
-                            'email': email,
-                            'mobile': mobile,
-                            'currency': currency,
-                        }
-                    ]
-                }
-            };
-            requestOptions['body']= JSON.stringify(body);
-            console.log('-------------------Signup table updated response---------------------')
-            try{
-                let dresp = await fetch(queryUrl, requestOptions);
-                console.log(dresp);
-                let dresponseJson = await dresp.json();  
-                console.log(dresponseJson);
-                return dresp;
-            }catch(e) {
-                console.log('Database update request failed');
-                return networkErrorObj;
-            }
-        }
+        return resp;
     } catch (e) {
         console.log('Request Failed: ' + e);
         return networkErrorObj;

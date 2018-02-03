@@ -2,8 +2,18 @@ import React, { Component } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import { Button, Text } from 'native-base';
 import LoginDetail from './login_detail';
-
+/**
+ * Start screen of the app.
+ * @export
+ * @class Login
+ * @extends {Component}
+ */
 export default class Login extends Component {
+    /**
+     * Render function for Login.
+     * @return {jsx}
+     * @memberof Login
+     */
     render() {
         return (
             <View style={styles.container}>
@@ -21,7 +31,7 @@ export default class Login extends Component {
                     >
                         <Text style={styles.loginText}>Log in</Text>
                     </Button>
-                    <Button 
+                    <Button
                         light
                         style={styles.signup}
                         resizeMethod='auto'

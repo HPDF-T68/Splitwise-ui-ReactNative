@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Alert, ImageBackground} from 'react-native';
-import {Text, Form, Item, Label, Input, Button, Picker, Icon} from 'native-base';
+import {StyleSheet, View, Alert, ImageBackground, KeyboardAvoidingView} from 'react-native';
+import {Text, Form, Item, Label, Input, Button, Picker, Icon, Spinner} from 'native-base';
 import ImagePicker from 'react-native-image-crop-picker';
 import { trySignup } from "../hasuraApi";
 /**
@@ -28,6 +28,7 @@ class SigninDetail extends Component {
                 width: 150,
                 height: 150,
             },
+            loading: false,
         };
     }
     /**
@@ -78,17 +79,32 @@ class SigninDetail extends Component {
             }).catch((e) => alert(e));
     }
     handleSignupPressed = async () => {
-        let resp = await trySignup(this.state.username,this.state.email, this.state.password, this.state.code,
-        this.state.mobile, this.state.selectedCurrency);
-        if(resp.status !== 200){
-        if (resp.status === 504) {
-            Alert.alert("Network Error", "Check your internet connection" )
+        const { username, email, password, code, mobile, selectedCurrency } = this.state;
+        if((username && email && password && mobile ) == '')
+        {
+            this.setState({ loading: true });
+            let resp = await trySignup(username, email, password, code, mobile, selectedCurrency);
+            this.setState({ loading: false });
+            if(resp.status !== 200){
+            if (resp.status === 504) {
+                Alert.alert("Network Error", "Check your internet connection" )
+            } else {
+                Alert.alert("Error", "Password too short / User already exists")      
+            }
+            } else {
+                this.setState({
+                    isLoggedIn:true,
+                    username: '',
+                    email: '',
+                    password: '',
+                    code: '',
+                    mobile: '',
+                    selectedCurrency: 'INR',
+                    });
+            Alert.alert("Signup succesfully, Please login using login screen")
+            }
         } else {
-            Alert.alert("Error", "Password too short / User already exists")      
-        }
-        } else {
-        this.setState({isLoggedIn:true})  
-        Alert.alert("Signup succesfully, Please login using login screen.")
+            Alert.alert("Enter required details")
         }
     }
     /**
@@ -97,8 +113,16 @@ class SigninDetail extends Component {
      * @memberof SigninDetail
      */
     render() {
+        if(this.state.loading) {
+            return(
+                <View style={styles.spinnerStyle}>
+                    <Spinner color='green'/>
+                    <Text>Signing In</Text>
+                </View>
+            );
+        }
         return (
-            <View>
+            <KeyboardAvoidingView>
                 <Text
                 style={styles.title}
                 >
@@ -198,7 +222,8 @@ class SigninDetail extends Component {
                         <Text style={styles.buttonDone}>Signin</Text>
                     </Button>
                 </View>
-            </View>
+                <View style={{ height: 60 }} />
+            </KeyboardAvoidingView>
         );
     }
 }
@@ -232,7 +257,7 @@ const styles = StyleSheet.create({
     },
     buttonBox: {
         flexDirection: 'row',
-        marginTop: 10,
+        marginTop: 5,
         justifyContent: 'space-around',
     },
     button: {
@@ -248,6 +273,12 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         color: 'white',
+    },
+    spinnerStyle: {
+        flex: 1,
+        paddingTop: 300,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });
 
