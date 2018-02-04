@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Alert, ImageBackground, KeyboardAvoidingView} from 'react-native';
 import {Text, Form, Item, Label, Input, Button, Picker, Icon, Spinner} from 'native-base';
 import ImagePicker from 'react-native-image-crop-picker';
+import {Actions} from 'react-native-router-flux';
 import { trySignup } from "../hasuraApi";
 /**
  * Class for Signin.
@@ -215,7 +216,7 @@ class SigninDetail extends Component {
                     </Form>
                 </View>
                 <View style={styles.buttonBox}>
-                    <Button light style={styles.button}>
+                    <Button light style={styles.button} onPress={() => Actions.start()}>
                         <Text style={styles.buttonBack}>Back</Text>
                     </Button>
                     <Button success style={styles.button} onPress={this.handleSignupPressed}>

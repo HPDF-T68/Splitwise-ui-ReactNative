@@ -13,23 +13,19 @@ const TabHeader = TabNavigator({
    tabBarPosition: 'top',
    swipeEnabled: true,
    tabBarOptions: {
-     activeTintColor: 'tomato',
-     inactiveTintColor: '#00b248',
+     activeTintColor: '#FF7A5A',
+     inactiveTintColor: 'white',
      labelStyle: {
       fontSize: 20,
      },
      indicatorStyle: {
-       backgroundColor: 'tomato',
+       backgroundColor: '#FF7A5A',
      },
      style: {
-       backgroundColor: '#00E676',
+       backgroundColor: '#50E3C2',
        height: 50
      }
    }
 });
-
-TabHeader.navigationOptions = {
-  
-};
 
 export default TabHeader;

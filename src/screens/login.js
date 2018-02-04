@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
+import {Actions} from 'react-native-router-flux';
 import { Button, Text } from 'native-base';
 import LoginDetail from './login_detail';
 /**
@@ -27,7 +28,7 @@ export default class Login extends Component {
                         light
                         style={styles.login}
                         resizeMethod='auto'
-                        onPress={LoginDetail}
+                        onPress={() => Actions.login()}
                     >
                         <Text style={styles.loginText}>Log in</Text>
                     </Button>
@@ -35,6 +36,7 @@ export default class Login extends Component {
                         light
                         style={styles.signup}
                         resizeMethod='auto'
+                        onPress={() => Actions.signin()}
                     >
                         <Text style={styles.loginText}>Sign Up</Text>
                     </Button>
@@ -46,7 +48,9 @@ export default class Login extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 5,
+        paddingTop: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     logo: {
         alignSelf: 'center',

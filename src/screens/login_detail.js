@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 import { Button, Text, Item, Label, Input, Form } from 'native-base';
 /**
  * defines login actions.
@@ -46,7 +47,7 @@ export default class LoginDetail extends Component {
                     </Form>
                 </View>
                 <View style={styles.buttonBox}>
-                    <Button light style={styles.button}>
+                    <Button light style={styles.button} onPress={() => Actions.start()}>
                         <Text style={styles.buttonBack}>Back</Text>
                     </Button>
                     <Button success style={styles.button} onPress={this.onButtonPress.bind(this)}>

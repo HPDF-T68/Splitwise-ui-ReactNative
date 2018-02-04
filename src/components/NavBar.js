@@ -24,7 +24,7 @@ const NavBar = () => {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#00E676',
+    backgroundColor: '#50E3C2',
     justifyContent: 'space-around',
     height: 50
   },
