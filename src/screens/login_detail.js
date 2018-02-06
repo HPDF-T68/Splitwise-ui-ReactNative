@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, KeyboardAvoidingView} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import { Button, Text, Item, Label, Input, Form } from 'native-base';
+import {tryLogin} from '../hasuraApi';
 /**
  * defines login actions.
  * @export
@@ -10,18 +11,37 @@ import { Button, Text, Item, Label, Input, Form } from 'native-base';
  */
 export default class LoginDetail extends Component {
 
-    state = {
-        email: '',
-        password: '',
-    };
-
-    onButtonPress() {
-        const { email, password } = this.state;
-
+    constructor(props){
+        super(props);
+        this.state = {
+            username: '',
+            password: '',
+            isLoggedIn: 'false',
+            auth_key: '',
+        };
     }
+
+    handleLoginPressed = async () => {
+        const {username, password} = this.state;
+        let resp = await tryLogin(username, password);
+        let responseJson = await resp.json();
+        console.log(responseJson);
+        let authid = JSON.stringify(responseJson.auth_token)
+        if(resp.status !== 200){
+            if (resp.status === 504) {
+              Alert.alert("Network Error", "Check your internet connection" )
+            } else {
+              Alert.alert("Error", "Unauthorized, Invalid username or password")      
+            }
+        } else {
+            this.setState({isLoggedIn:true, auth_key:authid});
+            Actions.home();  
+        }
+    }
+
     render() {
         return (
-            <View>
+            <KeyboardAvoidingView>
                 <Text
                 style={styles.title}
                 >
@@ -30,10 +50,10 @@ export default class LoginDetail extends Component {
                 <View style={styles.form}>
                     <Form>
                         <Item floatingLabel style={styles.input}>
-                            <Label>Email</Label>
+                            <Label>Username</Label>
                             <Input
-                            value={this.state.email}
-                            onChangeText={email => this.setState({ email })}
+                            value={this.state.username}
+                            onChangeText={username => this.setState({ username })}
                             />
                         </Item>
                         <Item floatingLabel style={styles.input}>
@@ -50,11 +70,11 @@ export default class LoginDetail extends Component {
                     <Button light style={styles.button} onPress={() => Actions.start()}>
                         <Text style={styles.buttonBack}>Back</Text>
                     </Button>
-                    <Button success style={styles.button} onPress={this.onButtonPress.bind(this)}>
+                    <Button success style={styles.button} onPress={this.handleLoginPressed}>
                         <Text style={styles.buttonDone}>Log In</Text>
                     </Button>
                 </View>
-            </View>  
+            </KeyboardAvoidingView>  
         );
     }
 }

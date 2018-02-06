@@ -17,7 +17,7 @@ class SigninDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoggedIn: false,
+            isSignedIn: false,
             username: '',
             email: '',
             password: '',
@@ -94,7 +94,7 @@ class SigninDetail extends Component {
             }
             } else {
                 this.setState({
-                    isLoggedIn:true,
+                    isSignedIn:true,
                     username: '',
                     email: '',
                     password: '',

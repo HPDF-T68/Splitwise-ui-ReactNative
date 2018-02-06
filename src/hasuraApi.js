@@ -1,8 +1,8 @@
 const clusterName = 'octagon58';
 
-const loginUrl = 'https://auth.${clusterName}.hasura-app.io/v1/login';
+const loginUrl = 'https://app.octagon58.hasura-app.io/login';
 const signupUrl = 'https://app.octagon58.hasura-app.io/signup';
-const queryUrl = 'https://data.'+ clusterName +'.hasura-app.io/v1/query'
+const queryUrl = 'https://data.' + clusterName + '.hasura-app.io/v1/query'
 
 import { Alert } from 'react-native';
 
@@ -31,26 +31,56 @@ export async function trySignup(username, email, password, code, mobile, currenc
     let body = {
         'provider': 'username',
         'data': {
-          'username': username,
-          'password': password,
-          'email': email,
-          'mobile':mobile,
-          'currency':currency,
+            'username': username,
+            'password': password,
+            'email': email,
+            'mobile': mobile,
+            'currency': currency,
         },
-      };
+    };
 
-    requestOptions['body']= JSON.stringify(body);
+    requestOptions['body'] = JSON.stringify(body);
     console.log('---------------------Auth response -----------------------');
 
     try {
         let resp = await fetch(signupUrl, requestOptions);
         console.log(resp);
-        let responseJson = await resp.json();  
+        let responseJson = await resp.json();
         console.log(responseJson);
         let resHasuraid = JSON.stringify(responseJson.hasura_id);
         return resp;
     } catch (e) {
         console.log('Request Failed: ' + e);
+        return networkErrorObj;
+    }
+}
+
+export async function tryLogin(username, password) {
+    console.log('Make login query');
+    let requestOptions = {
+        'method': 'POST',
+        'headers': {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    let body = {
+        'provider': 'username',
+        'data': {
+            'username': username,
+            'password': password
+        }
+    };
+
+    requestOptions['body'] = JSON.stringify(body);
+    console.log("-------------------Auth Response-----------------");
+    try {
+        let resp = await fetch(loginUrl, requestOptions);
+        console.log(resp);
+        return resp;
+    }
+    catch(e) {
+        console.log("Request Failed: " + e);
         return networkErrorObj;
     }
 }
