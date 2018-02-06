@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, KeyboardAvoidingView} from 'react-native';
+import {StyleSheet, View, KeyboardAvoidingView, Alert} from 'react-native';
 import {Actions} from 'react-native-router-flux';
-import { Button, Text, Item, Label, Input, Form } from 'native-base';
-import {tryLogin} from '../hasuraApi';
+import { Button, Text, Item, Label, Input, Form, Spinner } from 'native-base';
+import {tryLogin, tryLogout} from '../hasuraApi';
+import HomeScreen from './home_screen';
 /**
  * defines login actions.
  * @export
@@ -16,30 +17,63 @@ export default class LoginDetail extends Component {
         this.state = {
             username: '',
             password: '',
-            isLoggedIn: 'false',
             auth_key: '',
+            loading: false,
         };
     }
 
     handleLoginPressed = async () => {
         const {username, password} = this.state;
-        let resp = await tryLogin(username, password);
-        let responseJson = await resp.json();
-        console.log(responseJson);
-        let authid = JSON.stringify(responseJson.auth_token)
-        if(resp.status !== 200){
-            if (resp.status === 504) {
-              Alert.alert("Network Error", "Check your internet connection" )
+        if((username && password) != '')
+        {
+            this.setState({loading: true});
+            let resp = await tryLogin(username, password);
+            let responseJson = await resp.json();
+            console.log(responseJson);
+            let authid = JSON.stringify(responseJson.auth_token)
+            console.log(authid);
+            if(resp.status !== 200){
+                this.setState({loading: false});
+                if (resp.status === 504) {
+                Alert.alert("Network Error", "Check your internet connection" )
+                } else {
+                Alert.alert("Error", "Unauthorized, Invalid username or password")      
+                }
             } else {
-              Alert.alert("Error", "Unauthorized, Invalid username or password")      
+                this.setState({
+                    auth_key: authid,
+                });
+                Actions.home({logoutCallback:this.handleLogout});
             }
         } else {
-            this.setState({isLoggedIn:true, auth_key:authid});
-            Actions.home();  
+            Alert.alert('Enter login credentials!!');
+        }
+    }
+
+    handleLogout = async () => {
+        const {auth_key} = this.state;
+        let resp = await tryLogout(auth_key);
+        if(resp.status !== 200){
+            if (resp.status === 504) {
+            Alert.alert("Network Error", "Check your internet connection" );
+            } else {
+            Alert.alert('Unexpected error. Try again later');      
+            }
+        } else {
+            
+            Actions.start();
         }
     }
 
     render() {
+        if(this.state.loading) {
+            return (
+                <View style={styles.spinnerStyle}>
+                    <Spinner color='green'/>
+                    <Text>Trying to login</Text>
+                </View>
+            );
+        }
         return (
             <KeyboardAvoidingView>
                 <Text
@@ -114,6 +148,12 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         color: 'white'
+    },
+    spinnerStyle: {
+        flex: 1,
+        paddingTop: 300,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });
 

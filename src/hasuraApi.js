@@ -2,7 +2,8 @@ const clusterName = 'octagon58';
 
 const loginUrl = 'https://app.octagon58.hasura-app.io/login';
 const signupUrl = 'https://app.octagon58.hasura-app.io/signup';
-const queryUrl = 'https://data.' + clusterName + '.hasura-app.io/v1/query'
+const logoutUrl = 'https://auth.octagon58.hasura-app.io/v1/user/logout';
+const queryUrl = 'https://data.' + clusterName + '.hasura-app.io/v1/query';
 
 import { Alert } from 'react-native';
 
@@ -47,7 +48,6 @@ export async function trySignup(username, email, password, code, mobile, currenc
         console.log(resp);
         let responseJson = await resp.json();
         console.log(responseJson);
-        let resHasuraid = JSON.stringify(responseJson.hasura_id);
         return resp;
     } catch (e) {
         console.log('Request Failed: ' + e);
@@ -76,6 +76,31 @@ export async function tryLogin(username, password) {
     console.log("-------------------Auth Response-----------------");
     try {
         let resp = await fetch(loginUrl, requestOptions);
+        console.log(resp);
+        return resp;
+    }
+    catch(e) {
+        console.log("Request Failed: " + e);
+        return networkErrorObj;
+    }
+}
+
+export async function tryLogout(authkey) {
+    console.log("Make Logout query");
+    authkey = authkey.replace(/^"(.*)"$/, '$1');
+    let authorization = "Bearer ".concat(authkey);
+    console.log(authorization);
+    let requestOptions = {
+        'method': 'POST',
+        'headers' : {
+            'Content-Type': 'application/json',
+            'Authorization': authorization
+        }
+    };
+    console.log(authkey);
+    console.log('-----------------Logout Response--------------------');
+    try{
+        let resp = await fetch(logoutUrl, requestOptions);
         console.log(resp);
         return resp;
     }

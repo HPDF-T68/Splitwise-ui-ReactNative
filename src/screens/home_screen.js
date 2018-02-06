@@ -10,6 +10,14 @@ import NavBar from '../components/NavBar';
  */
 class HomeScreen extends Component {
     /**
+     * Creates an instance of HomeScreen.
+     * @param {any} props
+     * @memberof HomeScreen
+     */
+    constructor(props) {
+        super(props);
+    }
+    /**
      * Render function for Home screen.
      * @return {jsx}
      * @memberof HomeScreen
@@ -17,7 +25,7 @@ class HomeScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <NavBar />
+                <NavBar logoutCallback={this.props.logoutCallback}/>
                 <TabHeader />
             </View>
         );
