@@ -16,6 +16,9 @@ class HomeScreen extends Component {
      */
     constructor(props) {
         super(props);
+        this.state = {
+            hasuraId: this.props.hasuraId,
+        };
     }
     /**
      * Render function for Home screen.

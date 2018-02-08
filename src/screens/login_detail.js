@@ -18,6 +18,7 @@ export default class LoginDetail extends Component {
             username: '',
             password: '',
             auth_key: '',
+            hasura_id: 0,
             loading: false,
         };
     }
@@ -30,8 +31,8 @@ export default class LoginDetail extends Component {
             let resp = await tryLogin(username, password);
             let responseJson = await resp.json();
             console.log(responseJson);
-            let authid = JSON.stringify(responseJson.auth_token)
-            console.log(authid);
+            let hasuraId = JSON.stringify(responseJson.hasura_id);
+            this.setState({hasura_id: hasuraId});
             if(resp.status !== 200){
                 this.setState({loading: false});
                 if (resp.status === 504) {
@@ -43,7 +44,7 @@ export default class LoginDetail extends Component {
                 this.setState({
                     auth_key: authid,
                 });
-                Actions.home({logoutCallback:this.handleLogout});
+                Actions.home({logoutCallback:this.handleLogout, hasuraId:this.state.hasura_id});
             }
         } else {
             Alert.alert('Enter login credentials!!');
