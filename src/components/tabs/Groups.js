@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { View, StyleSheet, Image, Text} from 'react-native';
-import {Fab, Icon} from 'native-base';
+import {Fab, Icon, Content} from 'native-base';
+import GroupCard from '../GroupCard';
 
 class Groups extends Component {
     static navigationOptions = {
@@ -12,8 +13,15 @@ class Groups extends Component {
     render() {
         return(
             <View style={styles.container}>
-                
-                 <Fab
+                <Content>
+                    <GroupCard />
+                    <GroupCard />
+                    <GroupCard />
+                    <GroupCard />
+                    <GroupCard />
+                    <GroupCard />
+                </Content>
+                <Fab
                     active={this.state.active}
                     position='bottomRight'
                     containerStyle={{}}
@@ -29,8 +37,6 @@ class Groups extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
     }
 });
 
