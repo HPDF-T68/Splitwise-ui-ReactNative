@@ -4501,6 +4501,10 @@ react-native-material-textfield@^0.8.4:
   dependencies:
     prop-types "^15.5.9"
 
+react-native-multiple-select@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-multiple-select/-/react-native-multiple-select-0.4.1.tgz#a79ad2a2668df3cb35b8f9ba4cbd04561e1f41ec"
+
 react-native-router-flux@^4.0.0-beta.28:
   version "4.0.0-beta.28"
   resolved "https://registry.yarnpkg.com/react-native-router-flux/-/react-native-router-flux-4.0.0-beta.28.tgz#1d39cf176c88d0658af03cfa80dfb4a8eb284619"

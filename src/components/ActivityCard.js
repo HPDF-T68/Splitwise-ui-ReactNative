@@ -3,16 +3,16 @@ import {View, StyleSheet} from 'react-native';
 import {Card, CardItem, Text, Right, Thumbnail, Body, Left, Button} from 'native-base';
 
 /**
- * Friend class card.
+ * Activity class card.
  * @export
  * @class FriendCard
  * @extends {Component}
  */
-export default class FriendCard extends Component {
+export default class ActivityCard extends Component {
     /**
-     * render for friend card
+     * render for Activity card
      * @return {jsx}
-     * @memberof FriendCard
+     * @memberof ActivityCard
      */
     render() {
         return (
@@ -21,14 +21,15 @@ export default class FriendCard extends Component {
                     <Left>
                         <Thumbnail source={{uri: 'https://placeimg.com/150/150/people'}} />
                         <Body>
-                            <Text style={{fontWeight: 'bold'}}>Friend Name</Text>
+                            <Text style={{fontWeight: 'bold'}}>Group Name</Text>
+                            <Text note>on Date</Text>
                         </Body>
                     </Left>
-                    <Right>
-                        <Button style={styles.button}>
-                            <Text style={styles.buttonText}>Remove</Text>
-                        </Button>
-                    </Right>
+                </CardItem>
+                <CardItem cardBody style={styles.cardBody}>
+                    <View>
+                        <Text style={styles.activityText}>Added money to group</Text>
+                    </View>
                 </CardItem>
             </Card>
         );
@@ -40,17 +41,13 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         padding: 5
     },
-    button: {
-        width: 90,
-        height: 40,
-        margin: 5,
-        backgroundColor: '#50E3C2',
-        justifyContent: 'center'
+    cardBody: {
+        justifyContent: 'flex-start'
     },
-    buttonText: {
-        fontSize: 14,
-        color: '#FCF4D9',
+    activityText: {
+        fontSize: 16,
         fontWeight: 'bold',
-    },
+        color: 'grey'
+    }
 });
 
