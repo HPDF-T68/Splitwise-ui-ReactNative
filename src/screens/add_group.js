@@ -100,6 +100,9 @@ export default class AddGroup extends Component {
                             </Item>
                         </Form>
                     </View>
+                    <View style={styles.selectTextBox}>
+                        <Text style={styles.selectText}>Select Maximum 4 friends</Text>
+                    </View>
                     <View style={styles.friendList}>
                         <SelectMultiple
                         items={this.friends}
@@ -167,5 +170,13 @@ const styles = StyleSheet.create({
         marginLeft: 12,
         marginRight: 12,
         marginBottom: 20
+    },
+    selectTextBox: {
+        flex: .5,
+        marginLeft: 12
+    },
+    selectText: {
+        fontSize: 18,
+        fontWeight: 'bold'
     }
 });
