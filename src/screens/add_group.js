@@ -64,7 +64,7 @@ export default class AddGroup extends Component {
                         </Button>
                     </Left>
                     <Body style={styles.body}>
-                        <Title>Add Group</Title>
+                        <Title>ADD GROUP</Title>
                     </Body>
                     <Right style={styles.right}>
                         <Button style={styles.buttonSave}>
