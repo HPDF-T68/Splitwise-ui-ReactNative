@@ -3,6 +3,7 @@ import {View, StyleSheet, ImageBackground} from 'react-native';
 import {Container, Header, Content, Left, Body, Right, Button, Icon, Title, Text, Item, Form, Label, Input} from 'native-base';
 import SelectMultiple from 'react-native-select-multiple';
 import ImagePicker from 'react-native-image-crop-picker';
+import {Actions} from 'react-native-router-flux';
 
 /**
  * Add Group screen.
@@ -59,7 +60,7 @@ export default class AddGroup extends Component {
             <Container>
                 <Header style={styles.header}>
                     <Left style={styles.left}>
-                        <Button transparent>
+                        <Button transparent onPress={() => Actions.pop()}>
                             <Icon name='arrow-back'/>
                         </Button>
                     </Left>

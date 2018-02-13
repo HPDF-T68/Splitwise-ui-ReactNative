@@ -22,6 +22,7 @@ export default class FriendCard extends Component {
                         <Thumbnail source={{uri: 'https://placeimg.com/150/150/people'}} />
                         <Body>
                             <Text style={{fontWeight: 'bold'}}>Friend Name</Text>
+                            <Text note>4 Groups</Text>
                         </Body>
                     </Left>
                     <Right>

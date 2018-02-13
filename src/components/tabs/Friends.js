@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
 import { View, StyleSheet, Image, Text} from 'react-native';
 import {Fab, Icon, Content} from 'native-base';
+import {Actions} from 'react-native-router-flux';
 import FriendCard from '../FriendCard';
 
 class Friends extends Component {
     static navigationOptions = {
         tabBarLabel: 'FRIENDS'
     }
-    state = {
-        active: true
-    }
+
     render() {
         return(
             <View style={styles.container}>
@@ -23,11 +22,10 @@ class Friends extends Component {
                     <FriendCard />                    
                 </Content>
                 <Fab
-                    active={this.state.active}
                     position='bottomRight'
                     containerStyle={{}}
                     style={{backgroundColor: '#FF7A5A'}}
-                    onPress={() => this.setState({active: !this.state.active})}>
+                    onPress={() => Actions.addFriend()}>
                     <Icon name='add-circle' style={{fontSize: 50}}/>
                 </Fab>
             </View>

@@ -12,17 +12,10 @@ import ShareBill from './src/screens/share_bill';
  * @class App
  * @extends {React.Component}
  */
-class App extends React.Component {
-  /**
-   * Render function.
-   * @return {jsx}
-   * @memberof App
-   */
-  render() {
+const App = () => {
     return (
-      <ShareBill />
+      <Router />
     );
-  }
-}
+};
 
 export default App;

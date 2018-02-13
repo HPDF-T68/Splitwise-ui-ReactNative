@@ -1,14 +1,22 @@
 import React, {Component} from 'react';
 import { View, StyleSheet, Image, Text} from 'react-native';
 import {Fab, Icon, Content} from 'native-base';
+import {Actions} from 'react-native-router-flux';
 import GroupCard from '../GroupCard';
 
 class Groups extends Component {
     static navigationOptions = {
         tabBarLabel: 'GROUPS'
     }
-    state = {
-        active: true
+    constructor(props) {
+        super(props);
+        this.state = {
+            active: false
+        }
+    }
+   
+    onFabPress= () =>{
+        Actions.addGroup();
     }
     render() {
         return(
@@ -26,8 +34,8 @@ class Groups extends Component {
                     position='bottomRight'
                     containerStyle={{}}
                     style={{backgroundColor: '#FF7A5A'}}
-                    onPress={() => this.setState({active: !this.state.active})}>
-                    <Icon name='add-circle' style={{fontSize: 50}}/>
+                    >
+                    <Icon name='add-circle' style={{fontSize: 50}} onPress={() => Actions.addGroup()}/>
                 </Fab>
             </View>
         );

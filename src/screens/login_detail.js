@@ -31,19 +31,18 @@ export default class LoginDetail extends Component {
             let resp = await tryLogin(username, password);
             let responseJson = await resp.json();
             console.log(responseJson);
-            let hasuraId = JSON.stringify(responseJson.hasura_id);
-            this.setState({hasura_id: hasuraId});
             if(resp.status !== 200){
                 this.setState({loading: false});
                 if (resp.status === 504) {
                 Alert.alert("Network Error", "Check your internet connection" )
-                } else {
-                Alert.alert("Error", "Unauthorized, Invalid username or password")      
-                }
+                } 
+            } else if(responseJson.code === 'invalid-creds'){
+                this.setState({loading: false});
+                Alert.alert("Error", "Unauthorized, Invalid username or password") 
             } else {
-                this.setState({
-                    auth_key: authid,
-                });
+                let hasuraId = JSON.stringify(responseJson.hasura_id);
+                let authid = JSON.stringify(responseJson.auth_token);
+                this.setState({hasura_id: hasuraId, auth_key: authid});
                 Actions.home({logoutCallback:this.handleLogout, hasuraId:this.state.hasura_id});
             }
         } else {

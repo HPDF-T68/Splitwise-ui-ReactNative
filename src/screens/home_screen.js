@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet,Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {Container} from 'native-base';
 import TabHeader from '../components/TabHeader';
 import NavBar from '../components/NavBar';

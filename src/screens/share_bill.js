@@ -3,6 +3,7 @@ import {View, StyleSheet, ImageBackground, ScrollView} from 'react-native';
 import {Container, Header, Content, Left, Body, Right, Button, 
     Icon, Title, Text, Item, Form, Label, Input,List, ListItem, Separator, Thumbnail } from 'native-base';
 import ImagePicker from 'react-native-image-crop-picker';
+import {Actions} from 'react-native-router-flux';
 /**
  * ShareBill class
  * @export
