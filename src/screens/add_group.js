@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
     },
     selectText: {
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: 'grey'
     }
 });
