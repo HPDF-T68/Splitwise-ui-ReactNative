@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Container} from 'native-base';
+import {Container, Drawer} from 'native-base';
 import TabHeader from '../components/TabHeader';
 import NavBar from '../components/NavBar';
+import SideBar from '../components/sideBar';
 /**
  * Screen shows on login.
  * @class HomeScreen
@@ -20,6 +21,14 @@ class HomeScreen extends Component {
             hasuraId: this.props.hasuraId,
         };
     }
+    /*function for close drawer*/
+    closeDrawer = () => {
+        this.drawer._root.close();
+    };
+    /*function for open drawer*/
+    openDrawer = () => {
+        this.drawer._root.open();
+    };
     /**
      * Render function for Home screen.
      * @return {jsx}
@@ -27,10 +36,19 @@ class HomeScreen extends Component {
      */
     render() {
         return (
-            <View style={styles.container}>
-                <NavBar logoutCallback={this.props.logoutCallback}/>
-                <TabHeader />
-            </View>
+            <Drawer
+            ref={(ref) => { this.drawer = ref; }}
+            content={<SideBar navigator={this.navigator} />}
+            onClose={() => this.closeDrawer()}
+            onOpen={() => this.openDrawer()}
+            panOpenMask={0.25} 
+            side="left"
+            >
+                <View style={styles.container}>
+                    <NavBar logoutCallback={this.props.logoutCallback} openDrawer={this.openDrawer}/>
+                    <TabHeader />
+                </View>
+            </Drawer>
         );
     }
 }

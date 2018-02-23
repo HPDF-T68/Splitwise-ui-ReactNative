@@ -23,7 +23,7 @@ class NavBar extends React.Component {
     return (
       <Header hasTabs style={styles.header}>
         <Left style={styles.left}>
-            <Button transparent>
+            <Button transparent onPress={this.props.openDrawer}>
                 <Icon name='menu' />
             </Button>
         </Left>

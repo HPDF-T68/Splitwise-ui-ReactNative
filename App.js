@@ -14,7 +14,7 @@ import ShareBill from './src/screens/share_bill';
  */
 const App = () => {
     return (
-      <Router />
+      <HomeScreen />
     );
 };
 
