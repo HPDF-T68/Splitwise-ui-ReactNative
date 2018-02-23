@@ -1,9 +1,8 @@
-const clusterName = 'octagon58';
-
 const loginUrl = 'https://app.octagon58.hasura-app.io/login';
 const signupUrl = 'https://app.octagon58.hasura-app.io/signup';
 const logoutUrl = 'https://auth.octagon58.hasura-app.io/v1/user/logout';
-const queryUrl = 'https://data.' + clusterName + '.hasura-app.io/v1/query';
+const queryUrlAddMoney = 'https://data.octagon58.hasura-app.io/add_money_account';
+cosnt queryUserDetails = 'https://data.octagon58.hasura-app.io/add_money_account';
 
 import { Alert } from 'react-native';
 
@@ -106,6 +105,58 @@ export async function tryLogout(authkey) {
     }
     catch(e) {
         console.log("Request Failed: " + e);
+        return networkErrorObj;
+    }
+}
+
+export async function getUserDetails(authkey) {
+    console.log('Make user detail query');
+    authkey = authkey.replace(/^"(.*)"$/, '$1');
+    let authorization = "Bearer ".concat(authkey);
+    console.log(authorization);
+    let requestOptions = {
+        'method': 'POST',
+        'headers' : {
+            'Content-Type': 'application/json',
+        }
+    };
+    let body = {
+        "data": {
+		    "Authorization": authorization,
+	    }
+    };
+    requestOptions["body"] = JSON.stringify(body);
+    try {
+        let resp = await fetch(queryUserDetails, requestOptions);
+        return resp;
+    }
+    catch(e) {
+        console.log('Request Failed: ' + e);
+        return networkErrorObj;
+    }
+}
+
+export async function tryAddMoney(uid,amount) {
+    console.log('Make add money query');
+    let requestOptions = {
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    };
+    let body = {
+        "data":{
+            "uid":uid,
+            "money":amount
+        }
+    };
+    requestOptions["body"] = JSON.stringify(body);
+    try {
+        let resp = await fetch(queryUrlAddMoney, requestOptions);
+        return resp;
+    }
+    catch(e) {
+        console.log('Request Failed: ' + e);
         return networkErrorObj;
     }
 }
