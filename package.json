@@ -44,6 +44,8 @@
     "react-native-multiple-select-list": "^1.0.4",
     "react-native-router-flux": "^4.0.0-beta.28",
     "react-native-vector-icons": "^4.5.0",
-    "react-navigation": "^1.0.0-beta.29"
+    "react-navigation": "^1.0.0-beta.29",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2"
   }
 }

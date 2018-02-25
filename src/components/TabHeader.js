@@ -5,11 +5,19 @@ import Groups from './tabs/Groups';
 import Friends from './tabs/Friends';
 import Activity from './tabs/Activity';
 
-const TabHeader = TabNavigator({
-  GROUPS: {screen: Groups},
-  FRIENDS: {screen: Friends},
-  ACTIVITY: {screen: Activity}
-}, {
+const TabHeader = TabNavigator(
+  {
+    GROUPS: {
+    screen: (props) => <Groups hasuraId={props.hasuraId} />
+    },
+    FRIENDS: {
+      screen: Friends
+    },
+    ACTIVITY: {
+      screen: (props) => <Activity hasuraId={props.hasuraId} />
+    }
+  },
+  {
    tabBarPosition: 'top',
    swipeEnabled: true,
    tabBarOptions: {

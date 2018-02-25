@@ -1,8 +1,9 @@
 const loginUrl = 'https://app.octagon58.hasura-app.io/login';
 const signupUrl = 'https://app.octagon58.hasura-app.io/signup';
+const queryDetails = 'https://app.octagon58.hasura-app.io/info';
 const logoutUrl = 'https://auth.octagon58.hasura-app.io/v1/user/logout';
-const queryUrlAddMoney = 'https://data.octagon58.hasura-app.io/add_money_account';
-cosnt queryUserDetails = 'https://data.octagon58.hasura-app.io/add_money_account';
+const queryUrlAddMoney = 'https://app.octagon58.hasura-app.io/add_money_account';
+const queryFriendList = 'https://app.octagon58.hasura-app.io/list_friend';
 
 import { Alert } from 'react-native';
 
@@ -127,7 +128,7 @@ export async function getUserDetails(authkey) {
     };
     requestOptions["body"] = JSON.stringify(body);
     try {
-        let resp = await fetch(queryUserDetails, requestOptions);
+        let resp = await fetch(queryDetails, requestOptions);
         return resp;
     }
     catch(e) {
@@ -153,6 +154,33 @@ export async function tryAddMoney(uid,amount) {
     requestOptions["body"] = JSON.stringify(body);
     try {
         let resp = await fetch(queryUrlAddMoney, requestOptions);
+        return resp;
+    }
+    catch(e) {
+        console.log('Request Failed: ' + e);
+        return networkErrorObj;
+    }
+}
+
+export async function getFriendList(uid) {
+    console.log('Make friend list query');
+    let requestOptions = {
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    };
+    
+    let body = {
+        "data": {
+            "uid": uid
+        }
+    };
+    
+    requestOptions.body = JSON.stringify(body);
+
+    try {
+        let resp = await fetch(queryFriendList, requestOptions);
         return resp;
     }
     catch(e) {

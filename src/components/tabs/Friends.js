@@ -5,8 +5,18 @@ import {Actions} from 'react-native-router-flux';
 import FriendCard from '../FriendCard';
 
 class Friends extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            hasuraId: this.props.screenProps.hasuraId,
+        };
+    }
     static navigationOptions = {
         tabBarLabel: 'FRIENDS'
+    }
+
+    componentWillMount(){
+        console.log(this.state.hasuraId);
     }
 
     render() {

@@ -43,7 +43,7 @@ export default class LoginDetail extends Component {
                 let hasuraId = JSON.stringify(responseJson.hasura_id);
                 let authid = JSON.stringify(responseJson.auth_token);
                 this.setState({hasura_id: hasuraId, auth_key: authid});
-                Actions.home({logoutCallback:this.handleLogout, hasuraId:this.state.hasura_id});
+                Actions.home({logoutCallback:this.handleLogout, hasuraId:this.state.hasura_id, authId:this.state.auth_key});
             }
         } else {
             Alert.alert('Enter login credentials!!');

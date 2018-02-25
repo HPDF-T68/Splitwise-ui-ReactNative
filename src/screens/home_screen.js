@@ -4,6 +4,7 @@ import {Container, Drawer} from 'native-base';
 import TabHeader from '../components/TabHeader';
 import NavBar from '../components/NavBar';
 import SideBar from '../components/sideBar';
+import { getUserDetails } from '../hasuraApi';
 /**
  * Screen shows on login.
  * @class HomeScreen
@@ -19,7 +20,24 @@ class HomeScreen extends Component {
         super(props);
         this.state = {
             hasuraId: this.props.hasuraId,
+            authId: this.props.authId,
+            userName: '',
+            email: '',
+            mobile: '',
+            accountMoney: ''
         };
+    }
+    componentWillMount() {
+        this.handleUserDetails();
+    }
+
+    handleUserDetails = async () => {
+        let resp = await getUserDetails(this.state.authId);
+        let responseJson = await resp.json();
+        let username = '';
+        let email = '';
+        let mobile = '';
+        let currency = '';
     }
     /*function for close drawer*/
     closeDrawer = () => {
@@ -46,7 +64,7 @@ class HomeScreen extends Component {
             >
                 <View style={styles.container}>
                     <NavBar logoutCallback={this.props.logoutCallback} openDrawer={this.openDrawer}/>
-                    <TabHeader />
+                    <TabHeader screenProps={this.props}/>
                 </View>
             </Drawer>
         );
