@@ -21,11 +21,12 @@ class Friends extends Component {
         console.log(this.state.hasuraId);
         this.handleFriendList();
     }
+    comp
 
     handleFriendList = async() => {
         let resp = await getFriendList(this.state.hasuraId);
         if(resp.status !== 200){
-            this.setState({loading: false});
+            this.setState({loading                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              : false});
             if (resp.status === 504) {
             Alert.alert("Network Error", "Check your internet connection" )
             } 
@@ -65,7 +66,7 @@ class Friends extends Component {
                     position='bottomRight'
                     containerStyle={{}}
                     style={{backgroundColor: '#FF7A5A'}}
-                    onPress={() => Actions.addFriend()}>
+                    onPress={() => Actions.addFriend({hasuraId: this.state.hasuraId})}>
                     <Icon name='add-circle' style={{fontSize: 50}}/>
                 </Fab>
             </View>

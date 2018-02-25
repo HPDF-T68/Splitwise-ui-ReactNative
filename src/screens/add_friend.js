@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, KeyboardAvoidingView} from 'react-native';
-import {Container, Header, Content, Left, Body, Right, Button, Icon, Title, Text, Item, Form, Label, Input} from 'native-base';
+import {Container, Header, Content, Left, Body, Right, Button, Icon, Title, Text, Item, Form, Label, Input, Toast} from 'native-base';
 import {Actions} from 'react-native-router-flux';
+import { AddFriendApi } from '../hasuraApi';
 /**
  * Add friend class
  * @export
@@ -18,8 +19,36 @@ export default class AddFriend extends Component {
         super(props);
         this.state = {
             name: '',
-
+            hasuraId: this.props.hasuraId
         };
+    }
+    handleAddFriend = async () => {
+        let resp = await AddFriendApi(this.state.hasuraId,this.state.name);
+        if(resp.status !== 200){
+            if (resp.status === 504) {
+            Alert.alert("Network Error", "Check your internet connection" )
+            } 
+        }
+        let responseJson = await resp.json();
+        console.log(responseJson);
+        let response = JSON.stringify(responseJson.resp[0].message);
+        let username = this.state.name;
+        console.log(response);
+        if(responseJson.resp[0].message === 'User Added'){
+            Toast.show({
+                text: username.concat(' added to friend list'),
+                position: 'bottom',
+                buttonText: 'Okay',
+                duration: 3000
+            })
+        }else if(responseJson.resp[0].message === 'This user does not exists'){
+            Toast.show({
+                text: username.concat(' does not exist'),
+                position: 'bottom',
+                buttonText: 'Okay',
+                duration: 3000
+            })
+        }
     }
     /**
      * Add friend render
@@ -39,7 +68,7 @@ export default class AddFriend extends Component {
                         <Title>ADD FRIEND</Title>
                     </Body>
                     <Right style={styles.right}>
-                        <Button style={styles.buttonSave}>
+                        <Button style={styles.buttonSave} onPress={this.handleAddFriend}>
                             <Text style={styles.textSave}>Add</Text>
                         </Button>
                     </Right>

@@ -1,5 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
+import {Root} from 'native-base';
 import Login from './src/screens/login';
 import LoginDetail from './src/screens/login_detail';
 import SigninDetail from './src/screens/signin_detail';
@@ -14,7 +15,9 @@ import ShareBill from './src/screens/share_bill';
  */
 const App = () => {
     return (
-      <Router />
+      <Root>
+        <Router />
+      </Root>
     );
 };
 
