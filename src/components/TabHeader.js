@@ -8,13 +8,13 @@ import Activity from './tabs/Activity';
 const TabHeader = TabNavigator(
   {
     GROUPS: {
-    screen: (props) => <Groups hasuraId={props.hasuraId} />
+    screen: Groups
     },
     FRIENDS: {
       screen: Friends
     },
     ACTIVITY: {
-      screen: (props) => <Activity hasuraId={props.hasuraId} />
+      screen: Activity
     }
   },
   {

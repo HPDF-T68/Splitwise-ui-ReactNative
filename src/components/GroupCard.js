@@ -3,12 +3,6 @@ import {View, StyleSheet} from 'react-native';
 import {Card, CardItem, Text, Icon, Right, Thumbnail, Body, Left, Button} from 'native-base';
 
 state = {
-    total_amount: 0,
-    pay_amount: 0,
-    isPaid: true,
-    date: '',
-    members: 0,
-    name: '',
 };
 /**
  * Group card class
@@ -29,13 +23,13 @@ export default class GroupCard extends Component {
                     <Left>
                         <Thumbnail source={{uri: 'https://placeimg.com/150/150/people'}} />
                         <Body>
-                            <Text style={{fontWeight: 'bold'}}>Group Name</Text>
-                            <Text note>Date</Text>
-                            <Text note>4 Members</Text>
+                            <Text style={{fontWeight: 'bold'}}>{this.props.rowData.gname}</Text>
+                            <Text note>{this.props.rowData.gdate}</Text>
+                            <Text note><Text note>{this.props.rowData.member_no}</Text> Members</Text>
                         </Body>
                     </Left>
                     <Right>
-                        <Text style={styles.totalText}>100</Text>
+                        <Text style={styles.totalText}>{this.props.rowData.total_expense}</Text>
                     </Right>
                 </CardItem>
                 <CardItem cardBody style={styles.cardBody}>

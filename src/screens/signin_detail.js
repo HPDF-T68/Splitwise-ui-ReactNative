@@ -164,6 +164,7 @@ class SigninDetail extends Component {
                         <Item floatingLabel style={styles.input}>
                             <Label>Password</Label>
                             <Input 
+                                secureTextEntry
                                 value={this.state.password}
                                 onChangeText={(password) => this.setState({password})}
                             />
