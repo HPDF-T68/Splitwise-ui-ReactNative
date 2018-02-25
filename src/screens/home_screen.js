@@ -33,6 +33,12 @@ class HomeScreen extends Component {
 
     handleUserDetails = async () => {
         let resp = await getUserDetails(this.state.authId);
+        if(resp.status !== 200){
+            this.setState({loading: false});
+            if (resp.status === 504) {
+            Alert.alert("Network Error", "Check your internet connection" )
+            } 
+        }
         let responseJson = await resp.json();
         let username = '';
         let email = '';

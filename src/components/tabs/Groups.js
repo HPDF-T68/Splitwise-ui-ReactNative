@@ -15,6 +15,7 @@ class Groups extends Component {
         }
     }
    
+    
     onFabPress= () =>{
         Actions.addGroup();
     }
@@ -22,11 +23,6 @@ class Groups extends Component {
         return(
             <View style={styles.container}>
                 <Content>
-                    <GroupCard />
-                    <GroupCard />
-                    <GroupCard />
-                    <GroupCard />
-                    <GroupCard />
                     <GroupCard />
                 </Content>
                 <Fab

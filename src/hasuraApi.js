@@ -2,6 +2,7 @@ const loginUrl = 'https://app.octagon58.hasura-app.io/login';
 const signupUrl = 'https://app.octagon58.hasura-app.io/signup';
 const queryDetails = 'https://app.octagon58.hasura-app.io/info';
 const logoutUrl = 'https://auth.octagon58.hasura-app.io/v1/user/logout';
+const dataUrl = 'https://data.octagon58.hasura-app.io/v1/query';
 const queryUrlAddMoney = 'https://app.octagon58.hasura-app.io/add_money_account';
 const queryFriendList = 'https://app.octagon58.hasura-app.io/list_friend';
 
@@ -181,6 +182,47 @@ export async function getFriendList(uid) {
 
     try {
         let resp = await fetch(queryFriendList, requestOptions);
+        return resp;
+    }
+    catch(e) {
+        console.log('Request Failed: ' + e);
+        return networkErrorObj;
+    }
+}
+
+export async function getGroupList(uid) {
+    console.log('Make group list query');
+    let requestOptions = {
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer b0640a99283af5dfd4cdf5eb9450684f5f5a902b3a219364"
+        }
+    };
+    
+    let body = {
+        "type": "select",
+        "args": {
+        "table": "group",
+        "columns": [
+            "gid",
+            "gname",
+            "gdate",
+            "member_no",
+            "total_expanse"
+        ],
+        "where": {
+            "uid": {
+                "$eq": uid
+            }
+        }
+    }
+    };
+    
+    requestOptions.body = JSON.stringify(body);
+
+    try {
+        let resp = await fetch(dataUrl, requestOptions);
         return resp;
     }
     catch(e) {

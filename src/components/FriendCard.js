@@ -10,6 +10,15 @@ import {Card, CardItem, Text, Right, Thumbnail, Body, Left, Button} from 'native
  */
 export default class FriendCard extends Component {
     /**
+     * Creates an instance of FriendCard.
+     * @param {any} props
+     * @memberof FriendCard
+     */
+    constructor(props) {
+        super(props);
+    }
+
+    /**
      * render for friend card
      * @return {jsx}
      * @memberof FriendCard
@@ -21,8 +30,8 @@ export default class FriendCard extends Component {
                     <Left>
                         <Thumbnail source={{uri: 'https://placeimg.com/150/150/people'}} />
                         <Body>
-                            <Text style={{fontWeight: 'bold'}}>Friend Name</Text>
-                            <Text note>4 Groups</Text>
+                            <Text style={{fontWeight: 'bold'}}>{this.props.rowData.username}</Text>
+                            <Text note>User ID <Text note>{this.props.rowData.friend_id}</Text></Text>
                         </Body>
                     </Left>
                     <Right>
@@ -39,7 +48,6 @@ export default class FriendCard extends Component {
 const styles = StyleSheet.create({
     cardBasic: {
         borderColor: 'black',
-        padding: 5
     },
     button: {
         width: 90,
