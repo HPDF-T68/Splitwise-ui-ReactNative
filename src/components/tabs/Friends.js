@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, Text, ActivityIndicator, ListView, Alert, Plat
 import {Fab, Icon, Content} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import FriendCard from '../FriendCard';
-import { getFriendList } from "../../hasuraApi";
+import { getFriendList, RemoveFriendApi } from "../../hasuraApi";
 
 class Friends extends Component {
     constructor(props){
@@ -12,6 +12,7 @@ class Friends extends Component {
             hasuraId: this.props.screenProps.hasuraId,
             isLoading: true,
         };
+        this.handleFriendList = this.handleFriendList.bind(this);
     }
     static navigationOptions = {
         tabBarLabel: 'FRIENDS'
@@ -21,16 +22,15 @@ class Friends extends Component {
         console.log(this.state.hasuraId);
         this.handleFriendList();
     }
-    comp
 
     handleFriendList = async() => {
         let resp = await getFriendList(this.state.hasuraId);
-        if(resp.status !== 200){
-            this.setState({loading                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              : false});
-            if (resp.status === 504) {
+        if(resp.status !== 200)
+        {
+            this.setState({isLoading: false});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+            if (resp.status === 504) 
             Alert.alert("Network Error", "Check your internet connection" )
-            } 
-        }
+        } 
         let responseJson = await resp.json();
         let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.setState({
@@ -54,10 +54,12 @@ class Friends extends Component {
             <View style={styles.container}>
                 <Content>
                     <ListView
+                        key={this.state.dataSource}
+                        enableEmptySections={true}
                         dataSource={this.state.dataSource}
                         renderRow={(rowData) =>
                             <View style={{flex:1, flexDirection: 'row', marginLeft: 5,marginRight: 5}}>
-                                <FriendCard rowData={rowData} />
+                                <FriendCard rowData={rowData} hasuraId={this.state.hasuraId} handleFriendList={this.handleFriendList} />
                             </View>
                         }
                     />                 
@@ -66,7 +68,7 @@ class Friends extends Component {
                     position='bottomRight'
                     containerStyle={{}}
                     style={{backgroundColor: '#FF7A5A'}}
-                    onPress={() => Actions.addFriend({hasuraId: this.state.hasuraId})}>
+                    onPress={() => Actions.addFriend({hasuraId: this.state.hasuraId,handleFriendList: this.handleFriendList})}>
                     <Icon name='add-circle' style={{fontSize: 50}}/>
                 </Fab>
             </View>

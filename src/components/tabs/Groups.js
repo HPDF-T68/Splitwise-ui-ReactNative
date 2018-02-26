@@ -55,6 +55,7 @@ class Groups extends Component {
             <View style={styles.container}>
                 <Content>
                     <ListView
+                        enableEmptySections={true}
                         dataSource={this.state.dataSource}
                         renderRow={(rowData) =>
                             <View style={{flex:1, flexDirection: 'row', marginLeft: 5,marginRight: 5}}>

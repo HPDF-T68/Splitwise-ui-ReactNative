@@ -222,6 +222,52 @@ export async function AddFriendApi(uid, friend_id) {
     }
 }
 
+export async function RemoveFriendApi(uid, friend_id) {
+    console.log('Make friend remove query');
+    console.log(uid);
+    console.log(friend_id);
+    let requestOptions = {
+        "method": "POST",
+        "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer b0640a99283af5dfd4cdf5eb9450684f5f5a902b3a219364"
+    }
+    };
+    
+    let body = {
+        "type": "delete",
+        "args": {
+            "table": "friend",
+            "where": {
+                "$and": [
+                    {
+                        "uid": {
+                            "$eq": uid
+                        }
+                    },
+                    {
+                        "friend_id": {
+                            "$eq": friend_id
+                        }
+                    }
+                ]
+            }
+        }
+    };
+    
+    requestOptions.body = JSON.stringify(body);
+
+    try {
+        let resp = await fetch(dataUrl, requestOptions);
+        console.log(resp);
+        return resp;
+    }
+    catch(e) {
+        console.log('Request Failed: ' + e);
+        return networkErrorObj;
+    }
+}
+
 export async function getGroupList(uid) {
     console.log('Make group list query');
     let requestOptions = {

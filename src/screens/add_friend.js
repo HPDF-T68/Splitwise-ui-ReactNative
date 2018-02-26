@@ -39,16 +39,17 @@ export default class AddFriend extends Component {
                 text: username.concat(' added to friend list'),
                 position: 'bottom',
                 buttonText: 'Okay',
-                duration: 3000
+                duration: 5000
             })
         }else if(responseJson.resp[0].message === 'This user does not exists'){
             Toast.show({
                 text: username.concat(' does not exist'),
                 position: 'bottom',
                 buttonText: 'Okay',
-                duration: 3000
+                duration: 5000
             })
         }
+        this.props.handleFriendList();
     }
     /**
      * Add friend render
