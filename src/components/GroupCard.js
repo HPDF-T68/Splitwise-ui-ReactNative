@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Card, CardItem, Text, Icon, Right, Thumbnail, Body, Left, Button} from 'native-base';
+import {Actions} from 'react-native-router-flux';
+import prompt from 'react-native-prompt-android';
 
-state = {
-};
+
 /**
  * Group card class
  * @export
@@ -11,6 +12,50 @@ state = {
  * @extends {Component}
  */
 export default class GroupCard extends Component {
+    /**
+     * Creates an instance of GroupCard.
+     * @param {any} props
+     * @memberof GroupCard
+     */
+    constructor(props) {
+        super(props);
+        this.state = {
+            amount: 0
+        };
+    }
+    /**
+     * function to show prompt
+     * @memberof GroupCard
+     */
+    showPrompt() {
+        prompt(
+            'Enter amount to pay',
+            'This amount will be deducted from your wallet.',
+            [
+             {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+             {text: 'Pay', onPress: (amount) => {
+                    this.setState({
+                        amount: amount,
+                        
+                    }, function(){
+                        this.onPayPress();
+                    });
+
+                }},
+            ],
+            {
+                type: 'numeric',
+                cancelable: false,
+                defaultValue: 0,
+                placeholder: 'Enter amount'
+            }
+        );
+    };
+
+    onPayPress = async() => {
+        
+    }
+
     /**
      * Group card render.
      * @return {jsx}
@@ -37,13 +82,13 @@ export default class GroupCard extends Component {
                         <Text style={styles.settleText}>Closed</Text>
                     </View>
                     <View style={styles.buttonBox}>
-                        <Button style={styles.button}>
+                        <Button style={styles.button} onPress={this.showPrompt}>
                         <Text style={styles.buttonText}>Pay</Text>
                         </Button>
-                        <Button style={styles.button}>
+                        <Button style={styles.button} onPress={() => Actions.shareBill({Data: this.props.rowData})}>
                         <Text style={styles.buttonText}>Share</Text>
                         </Button>
-                   </View>
+                </View>
                 </CardItem>
             </Card>
         );

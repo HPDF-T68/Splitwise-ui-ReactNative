@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, ImageBackground} from 'react-native';
-import {Container, Header, Content, Left, Body, Right, Button, Icon, Title, Text, Item, Form, Label, Input} from 'native-base';
+import {Container, Header, Content, Left, Body, Right, Button, Icon, Title, Text, Item, Form, Label, Input, Toast} from 'native-base';
 import SelectMultiple from 'react-native-select-multiple';
 import ImagePicker from 'react-native-image-crop-picker';
 import {Actions} from 'react-native-router-flux';
+import { tryAddGroup, getFriendList, getUserID } from '../hasuraApi';
 
 /**
  * Add Group screen.
@@ -28,9 +29,79 @@ export default class AddGroup extends Component {
             },
             selectedFriends: [],
         };
-        this.friends = ['niyasns','manish','arun','mahesh','ajmal','arjun','rohit'];
+        this.friends = [];
+        this.selectedId = [];
     }
-    
+
+    componentDidMount(){
+        this.handleFriendList();
+    }
+
+    handleFriendList = async() => {
+        let resp = await getFriendList(this.props.hasuraId);
+        if(resp.status !== 200)
+        {
+            this.setState({isLoading: false});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+            if (resp.status === 504) 
+            Alert.alert("Network Error", "Check your internet connection" )
+        } 
+        let responseJson = await resp.json();
+        console.log(responseJson);
+        let count = Object.keys(responseJson).length;
+        var i = 0;
+        console.log(count);
+        var that = this;
+        while(count > 0) {
+            this.friends.push(responseJson[i].username);
+            count--;
+            i++;
+            console.log(count);
+        }
+        this.setState({ friends: this.friend, ID: this.userid });
+    }
+
+    handleAddPressed = async() => {
+        let ownerId = Number(this.props.hasuraId);
+        this.selectedId.push(ownerId);
+        let length = this.state.selectedFriends.length;
+        var j = 0;
+        console.log(this.state.selectedFriends);
+        while(length > 0){
+            let respID = await getUserID(this.state.selectedFriends[j].value);
+            let responseID = await respID.json();
+            console.log(responseID);
+            console.log("User ID fetched " + responseID[0].uid);
+            this.selectedId.push(responseID[0].uid)
+            j++;
+            length--;
+        }
+        console.log(this.selectedId);
+        let resp = await tryAddGroup(this.props.hasuraId,this.state.name,this.selectedId);
+        if(resp.status !== 200){
+            this.setState({loading: false});
+            if (resp.status === 504) {
+            Alert.alert("Network Error", "Check your internet connection" )
+            } 
+        }
+        let responseRes = await resp.json();
+        console.log(responseRes);
+        let len = length + 1;
+        if(responseRes.count === len){
+            Toast.show({
+                text: this.state.name+' group added with '+responseRes.count+' members',
+                position: 'bottom',
+                buttonText: 'Okay',
+                duration: 5000
+            });
+        }else {
+            Toast.show({
+                text: 'Some error occured, try again',
+                position: 'bottom',
+                buttonText: 'Okay',
+                duration: 5000
+            });   
+        }
+    }
     onSelectionsChange = (selectedFriends) => {
         this.setState({ selectedFriends });
     };
@@ -68,7 +139,7 @@ export default class AddGroup extends Component {
                         <Title>ADD GROUP</Title>
                     </Body>
                     <Right style={styles.right}>
-                        <Button style={styles.buttonSave}>
+                        <Button style={styles.buttonSave} onPress={this.handleAddPressed}>
                             <Text style={styles.textSave}>Save</Text>
                         </Button>
                     </Right>

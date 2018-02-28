@@ -4,6 +4,7 @@ import {Container, Header, Content, Left, Body, Right, Button,
     Icon, Title, Text, Item, Form, Label, Input,List, ListItem, Separator, Thumbnail } from 'native-base';
 import ImagePicker from 'react-native-image-crop-picker';
 import {Actions} from 'react-native-router-flux';
+import {getGroupUsers, addMoneyGroup} from '../hasuraApi';
 /**
  * ShareBill class
  * @export
@@ -25,11 +26,7 @@ export default class ShareBill extends Component {
             added_amount: '',
             amount: 0,
             notes: '',
-            members: [{name: 'niyasns', uri:'https://placeimg.com/150/150/people', paid: 'Paid'},
-                        {name: 'rohit', uri:'https://placeimg.com/150/150/people', paid: 'Unpaid'},
-                        {name: 'ajmal', uri:'https://placeimg.com/150/150/people', paid: 'Unpaid'},
-                        {name: 'arun', uri:'https://placeimg.com/150/150/people', paid: 'Paid'}
-                    ],
+            members: [],
             groupimage: {
                 uri: 'https://placeimg.com/100/100/people',
                 width: 150,
@@ -41,12 +38,42 @@ export default class ShareBill extends Component {
                 height: 150,
             }
         }
+        this.members = [];
+        this.uid = [];
+        this.no = 0;
+        this.singleAmount = 0;
     }
 
-    onSelectionsChange = (selectedFriends) => {
-        this.setState({ selectedFriends });
-    };
+    componentWillMount(){
+        this.handleUserList();
+    }
 
+    handleUserList = async() => {
+        let responseJson = await getGroupUsers(this.props.Data.gid);
+        console.log(responseJson);
+        let count = Object.keys(responseJson).length;
+        this.no = count;
+        var i = 0;
+        console.log(count);
+        while(count > 0){
+            this.members.push(responseJson[i]);
+            this.uid.push(responseJson[i].uid);
+            count--;
+            i++;
+        }
+        console.log(this.members);
+        console.log(this.uid);
+        this.setState({members: this.members});
+    }
+
+    handleSaveButton = async() => {
+        console.log("amount = "+ this.state.amount);
+        console.log("no = "+ this.no);
+        this.singleAmount = this.state.amount/this.no;
+        console.log("samount = "+ this.singleAmount);
+        let responseJson = await addMoneyGroup(this.props.Data.gid,this.uid,this.state.amount,this.singleAmount,
+            this.state.notes,this.no);
+    }
     pickSingle() {
         ImagePicker.openPicker({
             width: 100,
@@ -72,7 +99,7 @@ export default class ShareBill extends Component {
             <Container>
                 <Header style={styles.header}>
                     <Left style={styles.left}>
-                        <Button transparent>
+                        <Button transparent onPress={() => Actions.pop()}>
                             <Icon name='arrow-back'/>
                         </Button>
                     </Left>
@@ -80,14 +107,14 @@ export default class ShareBill extends Component {
                         <Title>SHARE BILL</Title>
                     </Body>
                     <Right style={styles.right}>
-                        <Button style={styles.buttonSave}>
+                        <Button style={styles.buttonSave} onPress={this.handleSaveButton}>
                             <Text style={styles.textSave}>Save</Text>
                         </Button>
                     </Right>
                 </Header>
                 <Content style={styles.content}>
                     <View style={styles.titleBox}>
-                        <Text style={styles.headText}>Taj Hotel</Text>
+                        <Text style={styles.headText}>{this.props.Data.gname}</Text>
                         <Icon name='trash' style={styles.IconDelete}/>
                     </View>
                     <View style={styles.titleContainer}>
@@ -108,9 +135,9 @@ export default class ShareBill extends Component {
                             </ImageBackground>
                         </View>
                         <View style={styles.subTextContainer}>
-                            <Text style={styles.titleSubText}>5 members</Text>
-                            <Text style={styles.titleSubText}>Created on Date</Text>
-                            <Text style={styles.titleSubText}>$1500 Added</Text>
+                            <Text style={styles.titleSubText}>{this.props.Data.member_no} members</Text>
+                            <Text style={styles.titleSubText}>Created on {this.props.Data.gdate}</Text>
+                            <Text style={styles.titleSubText}>${this.props.Data.total_expanse} Added</Text>
                         </View>
                     </View>
                     <View style={{paddingTop: 5}}>
@@ -118,27 +145,36 @@ export default class ShareBill extends Component {
                             <Text style={{fontSize: 18}}>MEMBERS</Text>
                         </Separator>
                     </View>
-                    <ScrollView style={styles.membersBox}>
+                    <View style={styles.membersBox}>
                         {this.state.members.map((person, index) => (
                             <ListItem avatar key={index}>
                             <Left>
-                            <Thumbnail key={index} source={{ uri: person.uri }} />
+                            <Thumbnail key={index} source={{ uri: person.image_id }} />
                             </Left>
                             <Body>
-                            <Text>{person.name}</Text>
-                            <Text note>{person.paid}</Text>
+                            <Text>{person.username}</Text>
+                            {person.to_pay == 0? <Text note>Paid</Text>:<Text note>Unpaid</Text>}
                             </Body>
-                        </ListItem>
+                            </ListItem>
                         ))}
-                    </ScrollView>
+                    </View>
                     <View style={styles.amountBox}>
                         <Item regular style={{width: 200}}>
-                            <Input placeholder='Amount' keyboardType='numeric' style={styles.amountText} />
+                            <Input 
+                                placeholder='Amount' 
+                                onChangeText={(amount) => this.setState({ amount })}
+                                keyboardType='numeric' 
+                                style={styles.amountText} 
+                            />
                         </Item>
                     </View>
                     <View>
                         <Item>
-                            <Input placeholder='Note'/>
+                            <Input 
+                                placeholder='Note'
+                                value={this.state.notes}
+                                onChangeText={(notes) => this.setState({ notes })}
+                            />
                         </Item>
                     </View>
                     <View style={styles.billImageContainer}>
@@ -231,7 +267,6 @@ const styles = StyleSheet.create({
         flex:1
     },
     membersBox: {
-        height: 180,
         marginBottom: 10
     },
     amountText: {

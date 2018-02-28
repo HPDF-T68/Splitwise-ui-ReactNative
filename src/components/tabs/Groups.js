@@ -24,17 +24,11 @@ class Groups extends Component {
    
     handleGroupList = async() => {
         let resp = await getGroupList(this.state.hasuraId);
-        if(resp.status !== 200){
-            this.setState({loading: false});
-            if (resp.status === 504) {
-            Alert.alert("Network Error", "Check your internet connection" )
-            } 
-        }
-        let responseJson = await resp.json();
+        console.log(resp);
         let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.setState({
             isLoading: false,
-            dataSource: ds.cloneWithRows(responseJson),
+            dataSource: ds.cloneWithRows(resp),
         }, function(){
             //something to do.
         });
@@ -70,7 +64,7 @@ class Groups extends Component {
                     containerStyle={{}}
                     style={{backgroundColor: '#FF7A5A'}}
                     >
-                    <Icon name='add-circle' style={{fontSize: 50}} onPress={() => Actions.addGroup()}/>
+                    <Icon name='add-circle' style={{fontSize: 50}} onPress={() => Actions.addGroup({hasuraId:this.state.hasuraId})}/>
                 </Fab>
             </View>
         );
