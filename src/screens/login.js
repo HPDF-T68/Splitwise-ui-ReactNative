@@ -22,7 +22,7 @@ export default class Login extends Component {
                     <Image
                         resizeMethod='auto'
                         style={styles.logo}
-                        source={require('../img/splitwise_logo.png')}
+                        source={require('../img/logo.png')}
                     />
                     <Button 
                         light
