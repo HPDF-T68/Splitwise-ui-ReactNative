@@ -89,6 +89,8 @@ class SigninDetail extends Component {
             if(resp.status !== 200){
             if (resp.status === 504) {
                 Alert.alert("Network Error", "Check your internet connection" )
+            } else if (resp.status === 503) {
+                Alert.alert("Cluster is waking, Please try after 5 minutes." );
             } else {
                 Alert.alert("Error", "Password too short / User already exists")      
             }

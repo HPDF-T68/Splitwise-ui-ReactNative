@@ -24,7 +24,7 @@ class HomeScreen extends Component {
             userName: '',
             email: '',
             mobile: '',
-            accountMoney: ''
+            accountMoney: '',
         };
     }
     componentWillMount() {
@@ -51,6 +51,7 @@ class HomeScreen extends Component {
     };
     /*function for open drawer*/
     openDrawer = () => {
+        this.refs.child.handleDetails();
         this.drawer._root.open();
     };
     /**
@@ -62,14 +63,14 @@ class HomeScreen extends Component {
         return (
             <Drawer
             ref={(ref) => { this.drawer = ref; }}
-            content={<SideBar navigator={this.navigator} />}
+            content={<SideBar navigator={this.navigator} hasuraId={this.state.hasuraId} ref='child'/>}
             onClose={() => this.closeDrawer()}
             onOpen={() => this.openDrawer()}
             panOpenMask={0.25} 
             side="left"
             >
                 <View style={styles.container}>
-                    <NavBar logoutCallback={this.props.logoutCallback} openDrawer={this.openDrawer}/>
+                    <NavBar logoutCallback={this.props.logoutCallback} openDrawer={this.openDrawer} loadData={this.myCallback}/>
                     <TabHeader screenProps={this.props}/>
                 </View>
             </Drawer>

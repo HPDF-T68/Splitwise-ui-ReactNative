@@ -36,6 +36,9 @@ export default class LoginDetail extends Component {
                 if (resp.status === 504) {
                 Alert.alert("Network Error", "Check your internet connection" )
                 } 
+                if (resp.status === 503) {
+                    Alert.alert("Cluster is waking, Please try after 5 minutes." );
+                } 
             } else if(responseJson.code === 'invalid-creds'){
                 this.setState({loading: false});
                 Alert.alert("Error", "Unauthorized, Invalid username or password") 

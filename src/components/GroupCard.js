@@ -3,7 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import {Card, CardItem, Text, Icon, Right, Thumbnail, Body, Left, Button} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import prompt from 'react-native-prompt-android';
-
+import {payMoney} from '../hasuraApi';
 
 /**
  * Group card class
@@ -22,6 +22,7 @@ export default class GroupCard extends Component {
         this.state = {
             amount: 0
         };
+        var that = this;
     }
     /**
      * function to show prompt
@@ -33,15 +34,7 @@ export default class GroupCard extends Component {
             'This amount will be deducted from your wallet.',
             [
              {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-             {text: 'Pay', onPress: (amount) => {
-                    this.setState({
-                        amount: amount,
-                        
-                    }, function(){
-                        this.onPayPress();
-                    });
-
-                }},
+             {text: 'Pay', onPress: amount => this.payButtonPress(amount)},
             ],
             {
                 type: 'numeric',
@@ -52,8 +45,16 @@ export default class GroupCard extends Component {
         );
     };
 
+    payButtonPress(amount){
+        this.setState({amount: amount})
+        this.onPayPress();
+    }
+
     onPayPress = async() => {
-        
+        let resp = await payMoney(this.props.hasuraId,this.props.rowData.gid,this.state.amount);
+        this.props.handleGroup();
+        let responseJson = await resp.json();
+        console.log(responseJson);
     }
 
     /**
@@ -74,18 +75,18 @@ export default class GroupCard extends Component {
                         </Body>
                     </Left>
                     <Right>
-                        <Text style={styles.totalText}>{this.props.rowData.total_expense}</Text>
+                        <Text style={styles.totalText}>{this.props.rowData.total_expanse}</Text>
                     </Right>
                 </CardItem>
                 <CardItem cardBody style={styles.cardBody}>
                     <View>
-                        <Text style={styles.settleText}>Closed</Text>
+                        <Text style={styles.settleText}>Open</Text>
                     </View>
                     <View style={styles.buttonBox}>
-                        <Button style={styles.button} onPress={this.showPrompt}>
+                        <Button style={styles.button} onPress={this.showPrompt.bind(this)}>
                         <Text style={styles.buttonText}>Pay</Text>
                         </Button>
-                        <Button style={styles.button} onPress={() => Actions.shareBill({Data: this.props.rowData})}>
+                        <Button style={styles.button} onPress={() => Actions.shareBill({Data: this.props.rowData, handleGroups: this.props.handleGroup})}>
                         <Text style={styles.buttonText}>Share</Text>
                         </Button>
                 </View>

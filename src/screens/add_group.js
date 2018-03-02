@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, ImageBackground} from 'react-native';
+import {View, StyleSheet, ImageBackground, Alert} from 'react-native';
 import {Container, Header, Content, Left, Body, Right, Button, Icon, Title, Text, Item, Form, Label, Input, Toast} from 'native-base';
 import SelectMultiple from 'react-native-select-multiple';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -64,6 +64,7 @@ export default class AddGroup extends Component {
         let ownerId = Number(this.props.hasuraId);
         this.selectedId.push(ownerId);
         let length = this.state.selectedFriends.length;
+        let len = length + 1;
         var j = 0;
         console.log(this.state.selectedFriends);
         while(length > 0){
@@ -85,22 +86,12 @@ export default class AddGroup extends Component {
         }
         let responseRes = await resp.json();
         console.log(responseRes);
-        let len = length + 1;
         if(responseRes.count === len){
-            Toast.show({
-                text: this.state.name+' group added with '+responseRes.count+' members',
-                position: 'bottom',
-                buttonText: 'Okay',
-                duration: 5000
-            });
+            Alert.alert(this.state.name+' group added with '+responseRes.count+' members');
         }else {
-            Toast.show({
-                text: 'Some error occured, try again',
-                position: 'bottom',
-                buttonText: 'Okay',
-                duration: 5000
-            });   
+            Alert.alert("Some error occured try again");
         }
+        this.props.handleGroupList();
     }
     onSelectionsChange = (selectedFriends) => {
         this.setState({ selectedFriends });

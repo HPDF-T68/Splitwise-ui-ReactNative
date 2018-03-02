@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, KeyboardAvoidingView} from 'react-native';
+import {View, StyleSheet, KeyboardAvoidingView, Alert} from 'react-native';
 import {Container, Header, Content, Left, Body, Right, Button, Icon, Title, Text, Item, Form, Label, Input, Toast} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import { AddFriendApi } from '../hasuraApi';
@@ -34,20 +34,10 @@ export default class AddFriend extends Component {
         let response = JSON.stringify(responseJson.resp[0].message);
         let username = this.state.name;
         console.log(response);
-        if(responseJson.resp[0].message === 'User Added'){
-            Toast.show({
-                text: username.concat(' added to friend list'),
-                position: 'bottom',
-                buttonText: 'Okay',
-                duration: 5000
-            })
+        if(responseJson.resp[0].message === "User Added"){
+            Alert.alert(username + " added to friend list");
         }else if(responseJson.resp[0].message === 'This user does not exists'){
-            Toast.show({
-                text: username.concat(' does not exist'),
-                position: 'bottom',
-                buttonText: 'Okay',
-                duration: 5000
-            })
+            Alert.alert(username + " does not exist");
         }
         this.props.handleFriendList();
     }

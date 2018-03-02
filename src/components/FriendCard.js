@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet,Alert} from 'react-native';
 import {Card, CardItem, Text, Right, Thumbnail, Body, Left, Button, Toast} from 'native-base';
 import { RemoveFriendApi } from '../hasuraApi';
 
@@ -32,20 +32,10 @@ export default class FriendCard extends Component {
         console.log(responseJson);
         if(responseJson.affected_rows > 0)
         {
-            Toast.show({
-                text: username.concat(' removed friend list'),
-                position: 'bottom',
-                buttonText: 'Okay',
-                duration: 5000
-            })
+            Alert.alert(username + " removed from friend list");
         }
         else {
-            Toast.show({
-                text: 'Some error occured',
-                position: 'bottom',
-                buttonText: 'Okay',
-                duration: 5000
-            })
+            Alert.alert("Some error occured");
         }
         this.props.handleFriendList();
     }

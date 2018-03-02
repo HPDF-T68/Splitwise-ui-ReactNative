@@ -53,7 +53,7 @@ class Groups extends Component {
                         dataSource={this.state.dataSource}
                         renderRow={(rowData) =>
                             <View style={{flex:1, flexDirection: 'row', marginLeft: 5,marginRight: 5}}>
-                                <GroupCard rowData={rowData} />
+                                <GroupCard rowData={rowData} hasuraId={this.state.hasuraId} handleGroup={this.handleGroupList}/>
                             </View>
                         }
                     />     
@@ -64,7 +64,8 @@ class Groups extends Component {
                     containerStyle={{}}
                     style={{backgroundColor: '#FF7A5A'}}
                     >
-                    <Icon name='add-circle' style={{fontSize: 50}} onPress={() => Actions.addGroup({hasuraId:this.state.hasuraId})}/>
+                    <Icon name='add-circle' style={{fontSize: 50}} onPress={() => Actions.addGroup({hasuraId:this.state.hasuraId,
+                        handleGroupList:this.handleGroupList})}/>
                 </Fab>
             </View>
         );

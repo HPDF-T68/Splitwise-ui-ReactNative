@@ -140,8 +140,51 @@ export async function getUserDetails(authkey) {
     }
 }
 
+export async function getUser(uid) {
+    console.log('Make user detail query with id');
+    console.log(uid);
+    let requestOptions = {
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer fc5a41ffcca30c7313b7662927b87d513744353e40a8bd75"
+        }
+    };
+    
+    let body = {
+        "type": "select",
+        "args": {
+            "table": "signup",
+            "columns": [
+                "username",
+                "email",
+                "mobile",
+                "owed",
+                "owe",
+                "currency"
+            ],
+            "where": {
+                "uid": {
+                    "$eq": uid
+                }
+            }
+        }
+    };
+    requestOptions["body"] = JSON.stringify(body);
+    try {
+        let resp = await fetch(dataUrl, requestOptions);
+        return resp;
+        console.log(resp);
+    }
+    catch(e) {
+        console.log('Request Failed: ' + e);
+        return networkErrorObj;
+    }
+}
+
 export async function tryAddMoney(uid,amount) {
     console.log('Make add money query');
+    console.log(amount);
     let requestOptions = {
         "method": "POST",
         "headers": {
@@ -149,14 +192,25 @@ export async function tryAddMoney(uid,amount) {
         }
     };
     let body = {
-        "data":{
-            "uid":uid,
-            "money":amount
+        "type": "update",
+        "args": {
+            "table": "signup",
+            "where": {
+                "uid": {
+                    "$eq": uid
+                }
+            },
+            "returning": [
+                "owed"
+            ],
+            "$inc": {
+                "owed": amount
+            }
         }
     };
     requestOptions["body"] = JSON.stringify(body);
     try {
-        let resp = await fetch(queryUrlAddMoney, requestOptions);
+        let resp = await fetch(dataUrl, requestOptions);
         return resp;
     }
     catch(e) {
@@ -629,6 +683,7 @@ export async function addMoneyGroup(gid,uid,amount,samount,notes,length) {
                     }
                 }
             }
+            console.log(lbody);
             requestOptions.body = JSON.stringify(lbody);
             let resp = await fetch(dataUrl, requestOptions)
             console.log("updated one row in signup");
@@ -645,7 +700,7 @@ export async function addMoneyGroup(gid,uid,amount,samount,notes,length) {
     }
 }
 
-export async function payMoney(gid,uid){
+export async function payMoney(uid,gid,amount){
     console.log("Make query for pay money");
     let requestOptions = {
         "method": "POST",
@@ -656,7 +711,55 @@ export async function payMoney(gid,uid){
     };
 
     let body = {
-        
+        "type": "update",
+        "args": {
+            "table": "group_member",
+            "where": {
+                "$and": [
+                    {
+                        "uid": {
+                            "$eq": uid
+                        }
+                    },
+                    {
+                        "gid": {
+                            "$eq": gid
+                        }
+                    }
+                ]
+            },
+            "$inc": {
+                "to_pay": -amount,
+                "paid": amount
+            }
+        }
+    }
+
+    requestOptions.body = JSON.stringify(body);
+    try{
+        let resp = await fetch(dataUrl, requestOptions);
+        let body = {
+            "type": "update",
+            "args": {
+                "table": "signup",
+                "where": {
+                    "uid": {
+                        "$eq": uid
+                    }
+                },
+                "$inc": {
+                    "owe": -amount,
+                    "owed": -amount
+                }
+            }
+        }
+        requestOptions.body = JSON.stringify(body);
+        console.log(body);
+        let resp1 = await fetch(dataUrl, requestOptions);
+        return resp1;
+    }catch(e){
+        console.log('Request Failed: ' + e);
+        return networkErrorObj;
     }
     
 }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, ImageBackground, ScrollView} from 'react-native';
+import {View, StyleSheet, ImageBackground, ScrollView, Alert} from 'react-native';
 import {Container, Header, Content, Left, Body, Right, Button, 
     Icon, Title, Text, Item, Form, Label, Input,List, ListItem, Separator, Thumbnail } from 'native-base';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -71,8 +71,16 @@ export default class ShareBill extends Component {
         console.log("no = "+ this.no);
         this.singleAmount = this.state.amount/this.no;
         console.log("samount = "+ this.singleAmount);
-        let responseJson = await addMoneyGroup(this.props.Data.gid,this.uid,this.state.amount,this.singleAmount,
+        let resp = await addMoneyGroup(this.props.Data.gid,this.uid,this.state.amount,this.singleAmount,
             this.state.notes,this.no);
+        let responseJson = await resp.json();
+        console.log(responseJson);
+        if(responseJson.affected_rows === 1){
+            Alert.alert("Bill updated to group");
+        }else{
+            Alert.alert("Some error occured");
+        }
+        this.props.handleGroups();
     }
     pickSingle() {
         ImagePicker.openPicker({
